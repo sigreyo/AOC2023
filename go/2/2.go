@@ -26,41 +26,45 @@ func main() {
 		data = append(data, scanner.Text())
 	}
 
-	for index, line := range data {
+	red := 0
+	green := 0
+	blue := 0
+	for _, line := range data {
 		trimmed := strings.Split(strings.ReplaceAll(strings.Split(line, ": ")[1], ";", ","), ", ")
 
-		valid := true
+		red = 0
+		green = 0
+		blue = 0
+
 		for _, v := range trimmed {
 			amountAndColor := strings.Split(v, " ")
 
 			switch amountAndColor[1] {
 			case "red":
-				if checkForMaxAmount(amountAndColor[0], 12) {
-					valid = false
-					break
+				checkRed, _ := strconv.Atoi(amountAndColor[0])
+				if checkRed >= red {
+					red = checkRed
 				}
 			case "green":
-				if checkForMaxAmount(amountAndColor[0], 13) {
-					valid = false
-					break
+				checkGreen, _ := strconv.Atoi(amountAndColor[0])
+				if checkGreen >= green {
+					green = checkGreen
 				}
 			case "blue":
-				if checkForMaxAmount(amountAndColor[0], 14) {
-					valid = false
-					break
+				checkBlue, _ := strconv.Atoi(amountAndColor[0])
+				if checkBlue >= blue {
+					blue = checkBlue
 				}
 			}
 		}
-		if valid {
-			sum += index + 1
-		}
 
+		sum += red * green * blue
 	}
 	fmt.Println(sum)
 }
 
-func checkForMaxAmount(amount string, max int) bool {
-	value, _ := strconv.Atoi(amount)
+// func checkForMaxAmount(amount string, max int) bool {
+// 	value, _ := strconv.Atoi(amount)
 
-	return value > max
-}
+// 	return value > max
+// }
